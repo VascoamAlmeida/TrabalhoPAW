@@ -1,0 +1,7 @@
+<!--views\doacoes\new.ejs -->
+<h2>Nova Doacao</h2>
+<form action="/doacoes" method = "POST">
+    <%- include('_form_fields') %>
+    <a class="btn btn-danger" href="/doacoes">Cancel</a>
+    <button class="btn btn-success" type="submit">Create</button>
+</form>

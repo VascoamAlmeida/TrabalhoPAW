@@ -1,0 +1,128 @@
+<!-- views\dashboard.ejs -->
+
+<body>
+    <h1 class="h1 mb-5 text-center">Dashboard</h1>
+    
+    
+    <div class="table-responsive col-10 mx-auto">
+      <h4 class="h2">Total de doacoes por Doador</h4>
+      <div class="row">
+        <div class="col">
+          <div id="piechartDoador" style="height: 400px;"></div>
+        </div>
+        <div class="col">
+          <div id="histogramDoador" style="height: 400px;"></div>
+        </div>
+      </div>
+      <h4 class="h2">Total de doacoes por Entidade</h4>
+      <div class="row">
+        <div class="col">
+          <div id="piechartEntidade" style="height: 400px;"></div>
+        </div>
+        <div class="col">
+          <div id="histogramEntidade" style="height: 400px;"></div>
+        </div>
+      </div>
+      <h4 class="h2">Total de doacoes por Estado</h4>
+      <div class="row">
+        <div class="col">
+          <div id="piechartEstado" style="height: 400px;"></div>
+        </div>
+        <div class="col">
+          <div id="histogramEstado" style="height: 400px;"></div>
+        </div>
+      </div>
+      <h4 class="h2">Top Doadores</h4>
+      <table class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Doacoes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% topDoadores.forEach(doador => { %> 
+            <tr>
+              <td><%= doador.name %></td>
+              <td><%= doador.count %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+        </table>
+        <p class="h6">Quantidade total de pecas doadas: <%= totalDoacoes %></p>
+    <br>
+    <p class="h6">Quantidade media de pecas doadas: <%= quantidadeMedia %></p>
+    </div>
+    <!-- Load the Google Charts package -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- Create and draw the chart -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChartDoador);
+      google.charts.setOnLoadCallback(drawChartEntidades);
+      google.charts.setOnLoadCallback(drawChartEstado);
+      
+      function drawChartDoador() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/dashboard/chartDoador');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = google.visualization.arrayToDataTable(JSON.parse(xhr.responseText));
+
+            var options = {
+              title: ''
+            };
+
+            var piechart = new google.visualization.PieChart(document.getElementById('piechartDoador'));
+            var histogramchart = new google.visualization.Histogram(document.getElementById('histogramDoador'));
+            piechart.draw(data, options);
+            histogramchart.draw(data, options);
+          }
+        };
+        xhr.send();
+      }
+
+      function drawChartEntidades() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/dashboard/chartEntidade');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = google.visualization.arrayToDataTable(JSON.parse(xhr.responseText));
+
+            var options = {
+              title: ''
+            };
+
+            var piechart = new google.visualization.PieChart(document.getElementById('piechartEntidade'));
+            var histogramchart = new google.visualization.Histogram(document.getElementById('histogramEntidade'));
+            piechart.draw(data, options);
+            histogramchart.draw(data, options);
+          }
+        };
+        xhr.send();
+      }
+
+      function drawChartEstado() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/dashboard/chartEstado');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = google.visualization.arrayToDataTable(JSON.parse(xhr.responseText));
+
+            var options = {
+              title: ''
+            };
+
+            var piechart = new google.visualization.PieChart(document.getElementById('piechartEstado'));
+            var histogramchart = new google.visualization.Histogram(document.getElementById('histogramEstado'));
+            piechart.draw(data, options);
+            histogramchart.draw(data, options);
+          }
+        };
+        xhr.send();
+      }
+    </script>
+</body>
+</html>
+

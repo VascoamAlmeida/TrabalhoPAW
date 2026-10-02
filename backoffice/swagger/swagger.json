@@ -1,0 +1,938 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Recicla Têxtil API",
+    "version": "1.0.0",
+    "description": "REST API for the academic textile donation platform."
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "name": "x-access-token",
+      "in": "header"
+    }
+  },
+  "parameters": {
+    "id": {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "Login": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "Register": {
+      "type": "object",
+      "required": [
+        "name",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "EntityRegister": {
+      "type": "object",
+      "required": [
+        "name",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "localizacao": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "UserInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Register"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string",
+              "enum": [
+                "Admin",
+                "Funcionario",
+                "Doador"
+              ]
+            },
+            "points": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "UserUpdate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        },
+        "role": {
+          "type": "string"
+        },
+        "points": {
+          "type": "number"
+        }
+      }
+    },
+    "EntityInput": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/EntityRegister"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "aprovada": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    },
+    "DonationInput": {
+      "type": "object",
+      "required": [
+        "entidade",
+        "quantidade"
+      ],
+      "properties": {
+        "entidade": {
+          "type": "string"
+        },
+        "quantidade": {
+          "type": "number",
+          "minimum": 1
+        },
+        "observacoes": {
+          "type": "string"
+        },
+        "estado": {
+          "type": "string",
+          "enum": [
+            "Inicio",
+            "Curso",
+            "Cancelado",
+            "Fim"
+          ]
+        }
+      }
+    },
+    "VoucherInput": {
+      "type": "object",
+      "required": [
+        "name",
+        "price"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Authenticate a user",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authenticated"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Register a donor",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Register"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Registered"
+          },
+          "409": {
+            "description": "Email already registered"
+          }
+        }
+      }
+    },
+    "/auth/login-entidade": {
+      "post": {
+        "summary": "Authenticate an approved beneficiary entity",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authenticated"
+          },
+          "403": {
+            "description": "Entity still pending approval"
+          }
+        }
+      }
+    },
+    "/auth/register-entidade": {
+      "post": {
+        "summary": "Submit a beneficiary entity registration request",
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EntityRegister"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Registration pending approval"
+          },
+          "409": {
+            "description": "Email already registered"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "List users (backoffice staff)",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a user (administrator)",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get a user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user (administrator)",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          }
+        }
+      }
+    },
+    "/users/buy-vale": {
+      "post": {
+        "summary": "Convert donor points into a voucher",
+        "tags": [
+          "Users",
+          "Vouchers"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "valeId"
+              ],
+              "properties": {
+                "valeId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Voucher purchased"
+          },
+          "400": {
+            "description": "Insufficient points"
+          }
+        }
+      }
+    },
+    "/entidades": {
+      "get": {
+        "summary": "List approved beneficiary entities",
+        "tags": [
+          "Entities"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entities"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a beneficiary entity (administrator)",
+        "tags": [
+          "Entities"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EntityInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/entidades/search": {
+      "post": {
+        "summary": "Search approved beneficiary entities",
+        "tags": [
+          "Entities"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "localizacao": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching entities"
+          }
+        }
+      }
+    },
+    "/entidades/{id}": {
+      "get": {
+        "summary": "Get a beneficiary entity",
+        "tags": [
+          "Entities"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entity"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a beneficiary entity (administrator)",
+        "tags": [
+          "Entities"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/EntityInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a beneficiary entity (administrator)",
+        "tags": [
+          "Entities"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          }
+        }
+      }
+    },
+    "/doacoes": {
+      "get": {
+        "summary": "List donation requests (backoffice staff)",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Donations"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a donation request (donor)",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DonationInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/doacoes/user/{idUser}": {
+      "get": {
+        "summary": "Get a donor donation history",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "idUser",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Donation history"
+          }
+        }
+      }
+    },
+    "/doacoes/entidade/{idEntidade}": {
+      "get": {
+        "summary": "Get donations for a beneficiary entity",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "idEntidade",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entity donations"
+          }
+        }
+      }
+    },
+    "/doacoes/newDonations": {
+      "get": {
+        "summary": "Get pending donations for the authenticated entity",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending donations"
+          }
+        }
+      }
+    },
+    "/doacoes/{id}": {
+      "get": {
+        "summary": "Get a donation",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Donation"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a donation (backoffice staff)",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/DonationInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a donation (administrator)",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted"
+          }
+        }
+      }
+    },
+    "/doacoes/{id}/aceitar": {
+      "put": {
+        "summary": "Accept a pending donation (beneficiary entity)",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "State changed to Curso"
+          }
+        }
+      }
+    },
+    "/doacoes/{id}/cancelar": {
+      "put": {
+        "summary": "Cancel a pending donation (beneficiary entity)",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "State changed to Cancelado"
+          }
+        }
+      }
+    },
+    "/doacoes/{id}/concluir": {
+      "put": {
+        "summary": "Complete an accepted donation and award points (beneficiary entity)",
+        "tags": [
+          "Donations"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "State changed to Fim"
+          }
+        }
+      }
+    },
+    "/vales": {
+      "get": {
+        "summary": "List vouchers",
+        "tags": [
+          "Vouchers"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vouchers"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a voucher (administrator)",
+        "tags": [
+          "Vouchers"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/VoucherInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/vales/{id}": {
+      "get": {
+        "summary": "Get a voucher",
+        "tags": [
+          "Vouchers"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Voucher"
+          }
+        }
+      }
+    }
+  }
+}

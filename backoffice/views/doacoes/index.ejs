@@ -1,0 +1,173 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+  integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA="
+  crossorigin="anonymous"
+/>
+
+<div class="container mt-3 mb-4">
+  <h2 class="h3">Search Doacao</h2>
+  <form action="/doacoes" method="GET" class="d-flex">
+    <div class="col-4">
+      <label class="mr-3">User</label>
+      <input
+        class="form-control"
+        type="text"
+        name="user"
+        value="<%= searchOptions.user %>"
+      />
+      <label class="mr-3">Entidade</label>
+      <input
+        class="form-control"
+        type="text"
+        name="entidade"
+        value="<%= searchOptions.entidade %>"
+      />
+    </div >
+    <div class="col-4">
+      <label class="mr-3">Date After</label>
+      <input
+        class="form-control"
+        type="date"
+        name="dataAfter"
+        value="<%= searchOptions.dataAfter %>"
+      />
+      <label class="mr-3">Date Before</label>
+      <input
+        class="form-control"
+        type="date"
+        name="dataBefore"
+        value="<%= searchOptions.dataBefore %>"
+      />
+      <label class="mr-3">Estado</label>
+      <select class="form-control" name="estado">
+        <option value="">Selecionar Estado</option>
+        <option value="Inicio" <%= searchOptions.estado === 'Inicio' ? 'selected' : '' %>>Inicio</option>
+        <option value="Curso" <%= searchOptions.estado === 'Curso' ? 'selected' : '' %>>Curso</option>
+        <option value="Cancelado" <%= searchOptions.estado === 'Cancelado' ? 'selected' : '' %>>Cancelado</option>
+        <option value="Fim" <%= searchOptions.estado === 'Fim' ? 'selected' : '' %>>Fim</option>
+      </select>
+    </div>
+    <div class="col-2 d-flex justify-content-center align-items-center">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+    <div class="col-2 d-flex justify-content-center align-items-center">
+      <a href="/doacoes/new" class="btn btn-success ml-auto">Add Doacao</a>
+    </div>
+  </form>
+</div>
+
+<br />
+
+<div class="container mt-3 mb-4">
+  <div class="col-lg-12 mt-4 mt-lg-0">
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <div
+          class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm"
+        >
+          <table class="table manage-candidates-top mb-0">
+            <thead>
+              <tr>
+                <th>Entidade</th>
+                <th>Doador</th>
+                <th>Data</th>
+                <th>Quantidade</th>
+                <th class="action text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% doacoes.forEach (doacao => { %>
+              <tr class="candidates-list">
+                <td class="candidate-list-favourite-time text-center">
+                  <span class="candidate-list-time order-1"
+                    ><%= doacao.entidade.name %></span
+                  >
+                </td>
+                <td class="candidate-list-favourite-time text-center">
+                  <span class="candidate-list-time order-1"
+                    ><%= doacao.user.name %></span
+                  >
+                </td>
+                <td class="candidate-list-favourite-time text-center">
+                  <span class="candidate-list-time order-1"
+                    ><%= doacao.data.toISOString().split('T')[0] %></span
+                  >
+                </td>
+                <td class="candidate-list-favourite-time text-center">
+                  <span class="candidate-list-time order-1"
+                    ><%= doacao.quantidade %></span
+                  >
+                </td>
+                <td>
+                  <ul class="list-unstyled mb-0 d-flex justify-content-end">
+                    <li class="mr-3">
+                      <a
+                        href="/doacoes/<%= doacao.id %>"
+                        class="text-primary"
+                        data-toggle="tooltip"
+                        title=""
+                        data-original-title="view"
+                        ><i class="far fa-eye"></i
+                      ></a>
+                    </li>
+                    <li class="mr-3">
+                      <a
+                        href="/doacoes/<%= doacao.id %>/edit"
+                        class="text-info"
+                        data-toggle="tooltip"
+                        title=""
+                        data-original-title="Edit"
+                        ><i class="fas fa-pencil-alt"></i
+                      ></a>
+                    </li>
+                    <li>
+                      <%- include("../partials/deleteForm", { url:
+                      `/doacoes/${doacao.id}` }) %>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <h2>Procurar Doacao</h2>
+<form action="/doacoes" method="GET">
+  <div>
+    <label>User</label>
+    <input type="text" name="user" value="<%= searchOptions.user %>">
+  </div>
+  <div>
+    <label>Entidade</label>
+    <input type="text" name="entidade" value="<%= searchOptions.entidade %>">
+  </div>
+  <div>
+    <label>date After</label>
+    <input type="date" name="dataAfter" value="<%= searchOptions.dataAfter %>">
+  </div>
+  <div>
+    <label>date Before</label>
+    <input type="date" name="dataBefore" value="<%= searchOptions.dataBefore %>">
+  </div>
+  <button type="submit">Search</button>
+</form> -->
+
+  <!-- Exibir cada doacao-->
+
+  <!-- <% doacoes.forEach (doacao => { %>
+    <div class="doacao-item">
+      <p>Entidade: <%= doacao.entidade.name %></p>
+      <p>Doador: <%= doacao.user.name %></p>
+      <p>Data: <%= doacao.data.toISOString().split('T')[0] %></p>
+      <p>Quantidade: <%= doacao.quantidade %></p>
+      <a href="/doacoes/<%= doacao.id %>">Detalhes</a>
+    </div>
+
+    <% }) %>
+  -->
+</div>

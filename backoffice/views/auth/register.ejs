@@ -1,0 +1,65 @@
+<!-- views\auth\register.ejs-->
+<!-- <h1>Register</h1>
+<form action="/auth/register" method="post">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required />
+  <label for="email">Email:</label>
+  <input type="text" id="email" name="email" required />
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required />
+  <button type="submit">Register</button>
+  <label for="role">Tipo</label>
+  <select name="role">
+    <option>Doador</option>
+    <option>Funcionario</option>
+    <option>Admin</option>
+  </select>
+  <label for="points">Pontos</label>
+  <input type="number" id="points" name="points" min="0" />
+</form> -->
+
+<main class="form-signin m-5 d-flex justify-content-center">
+  <form action="/auth/register" method="post">
+    <h1 class="h3 mb-5 fw-normal">Register</h1>
+    <div class="form-floating">
+      <label for="name">Name:</label>
+      <input class="form-control" type="text" id="name" name="name" required />
+      <label for="email">Email:</label>
+      <input
+        class="form-control"
+        type="text"
+        id="email"
+        name="email"
+        required
+      />
+
+      <label for="password">Password:</label>
+      <input
+        class="form-control"
+        type="password"
+        id="password"
+        name="password"
+        required
+      />
+      <label for="role">Tipo</label>
+      <select class="form-control" name="role">
+        <option>Doador</option>
+        <option>Funcionario</option>
+        <option>Admin</option>
+      </select>
+      <label for="points">Pontos</label>
+      <input
+        type="number"
+        class="form-control"
+        id="points"
+        name="points"
+        min="0"
+      />
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <button class="btn btn-primary w-50 py-2 mt-5" type="submit">
+        Register
+      </button>
+    </div>
+  </form>
+</main>

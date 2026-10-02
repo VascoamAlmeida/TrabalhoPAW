@@ -1,0 +1,86 @@
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css"
+  integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<div class="container">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-body pb-0">
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <div class="text-center border-end">
+                <img
+                  src="https://p7.hiclipart.com/preview/238/687/626/charitable-organization-donation-fundraising-foundation-computer-icons-giving.jpg"
+                  class="img-fluid avatar-xxl rounded-circle"
+                  alt=""
+                />
+              </div>
+            </div>
+            <!-- end col -->
+            <div class="col-md-9">
+              <div class="ms-3">
+                <div>
+                  <h4 class="card-title mb-2">Detalhes Doacao</h4>
+                </div>
+                <div class="row my-4">
+                  <div class="col-md-12">
+                    <div>
+                      <p class="text-muted mb-2 fw-medium">
+                        <a href="/users/<%= doacao.user.id %>"><%= doacao.user.name %></a>
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        <a href="/entidades/<%= doacao.entidade.id %>"><%= doacao.entidade.name %></a>
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        Data: <%= doacao.data.toISOString().split('T')[0] %>
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        Estado: <%= doacao.estado %>
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        Quantidade: <%= doacao.quantidade %>
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        Observacoes: <%= doacao.observacoes %>
+                      </p>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                </div>
+                <!-- end row -->
+                <ul
+                  class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied"
+                  role="tablist"
+                >
+                  <li class="nav-item mr-3" role="presentation">
+                    <a class="btn btn-primary" href="/doacoes/<%= doacao.id %>/edit"
+                      >Edit</a>
+                  </li>
+                  <!-- end li -->
+                  <li class="nav-item" role="presentation">
+                    <%- include('../partials/deleteForm', { url:
+                    `/doacoes/${doacao.id}` }) %>
+                  </li>
+                  <!-- end li -->
+                </ul>
+                <!-- end ul -->
+              </div>
+            </div>
+            <!-- end col -->
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- end card-body -->
+      </div>
+      <!-- end card -->
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end row -->
+</div>
+<!-- end container -->

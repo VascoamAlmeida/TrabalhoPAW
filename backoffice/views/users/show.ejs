@@ -1,0 +1,104 @@
+<!--views\users\show.ejs-->
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css"
+  integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<div class="container">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-body pb-0">
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <div class="text-center border-end">
+                <img
+                  src="https://www.pikpng.com/pngl/m/581-5819580_user-client-client-images-png-clipart.png"
+                  class="img-fluid avatar-xxl rounded-circle"
+                  alt=""
+                />
+                <h4 class="text-primary font-size-20 mt-3 mb-2">
+                  <%= user.name %>
+                </h4>
+              </div>
+            </div>
+            <!-- end col -->
+            <div class="col-md-9">
+              <div class="ms-3">
+                <div>
+                  <h4 class="card-title mb-2">Detalhes Utilizador</h4>
+                </div>
+                <div class="row my-4">
+                  <div class="col-md-12">
+                    <div>
+                      <p class="text-muted mb-2 fw-medium">
+                        <i class="mdi mdi-email-outline me-2"></i><%= user.email
+                        %>
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        <i class="mdi mdi-account-outline me-2"></i><%=
+                        user.role %>
+                      </p>
+                      <p class="text-muted fw-medium mb-0">
+                        <i class="mdi mdi-gift me-2"></i><%= user.points %>
+                      </p>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                </div>
+                <!-- end row -->
+                <ul
+                  class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied"
+                  role="tablist"
+                >
+                  <li class="nav-item mr-3" role="presentation">
+                    <a class="btn btn-primary" href="/users/<%= user.id %>/edit"
+                      >Edit</a
+                    >
+                  </li>
+                  <!-- end li -->
+                  <li class="nav-item" role="presentation">
+                    <%- include('../partials/deleteForm', { url:
+                    `/users/${user.id}` }) %>
+                  </li>
+                  <!-- end li -->
+                </ul>
+                <!-- end ul -->
+              </div>
+            </div>
+            <!-- end col -->
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- end card-body -->
+      </div>
+      <!-- end card -->
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end row -->
+</div>
+<!-- end container -->
+
+<% if(doacoesByUser.length > 0) { %>
+<div class="container">
+  <div class="row">
+    <div class="col-xl-12">
+      <h2 class="text-center">Doacoes do Utilizador</h2>
+      <% doacoesByUser.forEach(doacao => { %>
+      <div class="card">
+        <p class="h6 m-3">Entidade: <%= doacao.entidade.name %></p>
+        <img
+        class="m-3"
+          height="150"
+          width="100"
+          src="<%= doacao.entidade.logoImagePath %>"
+        />
+        <% }) %> <% } %>
+      </div>
+    </div>
+  </div>
+</div>

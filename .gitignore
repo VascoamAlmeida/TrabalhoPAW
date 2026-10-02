@@ -1,0 +1,22 @@
+# Dependencies
+**/node_modules/
+
+# Environment / secrets
+.env
+**/.env
+
+# Runtime uploads
+backoffice/public/uploads/companyLogos/*
+!backoffice/public/uploads/companyLogos/.gitkeep
+
+# Angular / coverage
+frontoffice/dist/
+frontoffice/.angular/
+**/coverage/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

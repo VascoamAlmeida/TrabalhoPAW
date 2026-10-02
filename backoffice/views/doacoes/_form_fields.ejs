@@ -1,0 +1,146 @@
+<!--views\doacoes\_form_fields.ejs-->
+<!-- INSERIR NOME UTILIZADOR-->
+<!-- <div>
+  <label>Doador</label>
+  <!--Gera lista de users
+  <select name="user">
+    <% users.forEach(user => { %>
+      <% if (user.id === doacao.user) { %>
+        <option selected label="<%= user.name %>" value="<%= user.id %>"> </option>
+      <% } else { %>
+        <option label="<%= user.name %>" value="<%= user.id %>"> </option>
+      <% } %>
+    <% }) %>
+  </select>
+</div> -->
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Doador</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <select class="form-control" name="user">
+      <% users.forEach(user => { %> <% if (user.id.toString() ===
+      doacao.user.toString()) { %>
+      <option selected label="<%= user.name %>" value="<%= user.id %>"></option>
+      <% } else { %>
+      <option label="<%= user.name %>" value="<%= user.id %>"></option>
+      <% } %> <% }) %>
+    </select>
+  </div>
+</div>
+
+<!--INSERIR A ENTIDADE-->
+<!-- <div>
+  <label>Entidade</label>
+  <select name="entidade">
+    <% entidades.forEach(entidade => { %>
+       <% if (entidade.id.toString() === doacao.entidade.toString()) { %>
+    <option selected label="<%= entidade.name %>" value="<%= entidade.id %>"> </option>
+      <% } else { %>
+
+    <option label="<%= entidade.name %>" value="<%= entidade.id %>"> </option>
+      <% } %> <% }) %>
+  </select>
+<input type="text" name="entidade" value=" <%= doacao.entidade %>" />
+</div> -->
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Entidade</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <select class="form-control" name="entidade">
+      <% entidades.forEach(entidade => { %> <% if (entidade.id.toString() ===
+      doacao.entidade.toString()) { %>
+      <option
+        selected
+        label="<%= entidade.name %>"
+        value="<%= entidade.id %>"
+      ></option>
+      <% } else { %>
+
+      <option label="<%= entidade.name %>" value="<%= entidade.id %>"></option>
+      <% } %> <% }) %>
+    </select>
+  </div>
+</div>
+
+<!-- INSERIR A DATA DA DOACAO-->
+<!-- <div>
+  <label>Data Doacao</label>
+  <input
+    type="date"
+    name="data"
+    value="<%= doacao.data == null ? '': 
+            doacao.data.toISOString().split('T')[0] %>"
+  />
+  Passar para String a data
+</div> -->
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Data Doacao</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <input
+      class="form-control"
+      type="date"
+      name="data"
+      value="<%= doacao.data == null ? '': 
+            doacao.data.toISOString().split('T')[0] %>"
+    />
+    <!--Passar para String a data-->
+  </div>
+</div>
+
+<!--INSERIR A QUANTIDADE DE DOACAO-->
+<!-- <div>
+  <label>Quantidade</label>
+  <input type="number" name="quantidade" min="1" value="<%= doacao.quantidade  %>" />
+</div> -->
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Quantidade</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <input
+      class="form-control"
+      type="number"
+      name="quantidade"
+      min="1"
+      value="<%= doacao.quantidade  %>"
+    />
+  </div>
+</div>
+
+<!--INSERIR ESTADO-->
+<!-- <div>
+  <label for="estado">Estado</label>
+  <select name="estado">
+    <option>Inicio</option>
+    <option>Curso</option>
+    <option>Fim</option>
+    <option>Cancelado</option>
+  </select>
+</div> -->
+
+<div class="form-group">
+  <label for="estado" class="col-md-2 col-sm-3 col-xs-12 control-label">Estado</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <select class="form-control" name="estado">
+      <option <%= doacao.estado === 'Inicio' ? 'selected' : '' %>>Inicio</option>
+      <option <%= doacao.estado === 'Curso' ? 'selected' : '' %>>Curso</option>
+      <option <%= doacao.estado === 'Fim' ? 'selected' : '' %>>Fim</option>
+      <option <%= doacao.estado === 'Cancelado' ? 'selected' : '' %>>Cancelado</option>
+    </select>
+  </div>
+</div>
+
+<!--INSERIR OBSERVAÇOES-->
+<!-- <div>
+  <label>Observacoes</label>
+  <textarea name="observacoes"><%= doacao.observacoes %></textarea>
+</div> -->
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Observacoes</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <textarea class="form-control" name="observacoes">
+<%= doacao.observacoes %></textarea
+    >
+  </div>
+</div>

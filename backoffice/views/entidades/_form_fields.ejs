@@ -1,0 +1,84 @@
+<!--views\entidades\_form_fields.ejs-->
+
+<!-- INSERIR LOGO EMPRESA-->
+<!-- <div>
+  <label>Name</label>
+  <input type="text" name="name" value=" <%= entidade.name %>" />
+</div>
+
+<div>
+  <label>Email</label>
+  <input type="email" name="email" value="<%= entidade.email %>" />
+</div>
+
+<div>
+  <label>companyLogo</label>
+  <input type="file" name="logo" />
+</div> -->
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nome</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <input
+      class="form-control"
+      type="text"
+      name="name"
+      value="<%= entidade.name %>"
+    />
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Email</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <input
+      class="form-control"
+      type="email"
+      name="email"
+      value="<%= entidade.email %>"
+    />
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Password</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <input
+      class="form-control"
+      type="password"
+      name="password"
+      value="" placeholder="<%= entidade.isNew ? 'Password' : 'Leave blank to keep current password' %>"
+    />
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">localização</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <input
+      class="form-control"
+      type="text"
+      name="localizacao"
+      value="<%= entidade.localizacao %>"
+    />
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label">Aprovada</label>
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <select class="form-control" name="aprovada">
+      <option value="true" <%= entidade.aprovada ? 'selected' : '' %>>true</option>
+      <option value="false" <%= !entidade.aprovada ? 'selected' : '' %>>false</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-2 col-sm-3 col-xs-12 control-label"
+    >Logo da entidade</label
+  >
+  <div class="col-md-10 col-sm-9 col-xs-12">
+    <input class="form-control" type="file" name="logo" />
+  </div>
+</div>

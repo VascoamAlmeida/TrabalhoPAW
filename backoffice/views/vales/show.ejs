@@ -1,0 +1,61 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css"
+  integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<div class="container">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-body pb-0">
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <div class="text-center border-end">
+                <img
+                  src="https://w7.pngwing.com/pngs/952/559/png-transparent-vu-university-amsterdam-voucher-discounts-and-allowances-gift-card-voucher-gift-miscellaneous-purple-university-thumbnail.png"
+                  class="img-fluid avatar-xxl rounded-circle"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="ms-3">
+                <div>
+                  <h4 class="card-title mb-2">Detalhes do Vale</h4>
+                </div>
+                <div class="row my-4">
+                  <div class="col-md-12">
+                    <div>
+                      <p class="text-muted mb-2 fw-medium">
+                        Nome: <%= vale.name %>
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        Preço: <%= vale.price %>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <ul
+                  class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justified"
+                  role="tablist"
+                >
+                  <li class="nav-item mr-3" role="presentation">
+                    <a class="btn btn-primary" href="/vales/<%= vale.id %>/edit"
+                      >Editar</a
+                    >
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <%- include('../partials/deleteForm', { url:
+                    `/vales/${vale.id}` }) %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

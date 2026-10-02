@@ -1,0 +1,89 @@
+<nav class="navbar">
+  <ul class="navbar-nav">
+    <div class="d-flex flex-row">
+      <a [routerLink]="['/home']" style="display: flex; align-items: center">
+        <img
+          src="assets/logo.jpg"
+          alt="logo"
+          height="70px"
+          width="100px"
+          class="m-2"
+        />
+        <h2 class="mt-4">Recicla Textil</h2>
+      </a>
+      <li
+        *ngIf="
+          getCurrentUser() != undefined &&
+          (getCurrentUser().role == 'Admin' ||
+            getCurrentUser().role == 'Funcionario' ||
+            getCurrentUser().role == 'Doador')
+        "
+        [ngClass]="{ active: getUrl() === '/profile' }"
+        class="nav-item mt-3"
+      >
+        <a class="btn btn-primary m-2" routerLink="/profile"> Meu Perfil </a>
+      </li>
+      <li
+        *ngIf="getCurrentRole() != undefined && getCurrentRole() == 'Entidade'"
+        [ngClass]="{ active: getUrl() === '/profile-entidade' }"
+        class="nav-item mt-3"
+      >
+        <a class="btn btn-primary m-2" routerLink="/profile-entidade">
+          Meu Perfil
+        </a>
+      </li>
+      <li
+        *ngIf="
+          getCurrentUser() != undefined &&
+          (getCurrentUser().role == 'Admin' ||
+            getCurrentUser().role == 'Funcionario' ||
+            getCurrentUser().role == 'Doador')
+        "
+        [ngClass]="{ active: getUrl() === '/historico' }"
+        class="nav-item mt-3"
+      >
+        <a class="btn btn-primary m-2" routerLink="/historico">
+          Meu Historico
+        </a>
+      </li>
+      <li
+        *ngIf="getCurrentRole() != undefined && getCurrentRole() == 'Entidade'"
+        [ngClass]="{ active: getUrl() === '/historico-entidade' }"
+        class="nav-item mt-3"
+      >
+        <a class="btn btn-primary m-2" routerLink="/historico-entidade">
+          Meu Historico
+        </a>
+      </li>
+      <li
+        [ngClass]="{ active: getUrl() === '/entidades' }"
+        class="nav-item mt-3"
+      >
+        <a class="btn btn-primary m-2" routerLink="/entidades"> Entidades </a>
+      </li>
+      <li
+        *ngIf="
+          getCurrentUser() != undefined &&
+          (getCurrentUser().role == 'Admin' ||
+            getCurrentUser().role == 'Funcionario' ||
+            getCurrentUser().role == 'Doador')
+        "
+        [ngClass]="{ active: getUrl() === '/vales' }"
+        class="nav-item mt-3"
+      >
+        <a class="btn btn-primary m-2" routerLink="/vales"> Vales </a>
+      </li>
+    </div>
+  </ul>
+  <ul class="navbar-nav ml-auto flex-row">
+    <li *ngIf="getCurrentUser() != undefined" class="nav-item">
+      <a class="btn btn-primary m-2" (click)="logout()"> Logout </a>
+    </li>
+    <li *ngIf="getCurrentUser() == undefined" class="nav-item">
+      <a class="btn btn-primary m-2" (click)="register()"> Register </a>
+    </li>
+    <li *ngIf="getCurrentUser() == undefined" class="nav-item">
+      <a class="btn btn-primary m-2" (click)="login()"> Login </a>
+    </li>
+  </ul>
+</nav>

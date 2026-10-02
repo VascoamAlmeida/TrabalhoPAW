@@ -1,0 +1,71 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css"
+  integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bnBpifSOTO1No27TqNMKYoAn6ff2FBh03THAzAiiCwQ+aPX+/Qt/Ow=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-body pb-0">
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <div class="text-center border-end">
+                <img
+                  [src]="
+                    entidade?.companyLogo
+                      ? imageUrl + entidade?.companyLogo
+                      : 'https://png.pngtree.com/element_our/png/20181228/building-vector-icon-png_296032.jpg'
+                  "
+                  class="img-fluid avatar-xxl rounded-circle"
+                  alt=""
+                />
+                <h4 class="text-primary font-size-20 mt-3 mb-2">
+                  {{ entidade?.name }}
+                </h4>
+              </div>
+            </div>
+            <!-- end col -->
+            <div class="col-md-9">
+              <div class="ms-3">
+                <div>
+                  <h4 class="card-title mb-2">Detalhes Entidade</h4>
+                </div>
+                <div class="row my-4">
+                  <div class="col-md-12">
+                    <div>
+                      <p class="text-muted mb-2 fw-medium">
+                        <i class="mdi mdi-email-outline me-2"></i>Email:
+                        {{ entidade?.email }}
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        <i class="mdi mdi-map-marker-outline me-2"></i
+                        >Localizacao:
+                        {{ entidade?.localizacao }}
+                      </p>
+                      <p class="text-muted mb-2 fw-medium">
+                        <i class="mdi mdi-check-circle-outline me-2"></i
+                        >Aprovada:
+                        {{ entidade?.aprovada }}
+                      </p>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                </div>
+                <!-- end row -->
+              </div>
+            </div>
+            <!-- end col -->
+          </div>
+          <!-- end row -->
+        </div>
+        <!-- end card-body -->
+      </div>
+      <!-- end card -->
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end row -->
+</div>

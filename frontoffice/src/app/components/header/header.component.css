@@ -1,0 +1,17 @@
+.navbar {
+  background-color: #f5f5f5;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+h2 {
+  color: blue;
+}
+
+img {
+  border-radius: 40%; /* This will make the image rounded */
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+}

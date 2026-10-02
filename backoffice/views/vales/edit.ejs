@@ -1,0 +1,6 @@
+<h2>Editar Vale</h2>
+<form action="/vales/<%= vale.id %>?_method=PUT" method="POST">
+  <%- include('_form_fields') %>
+  <a class="btn btn-danger" href="/vales">Cancelar</a>
+  <button class="btn btn-success" type="submit">Atualizar</button>
+</form>

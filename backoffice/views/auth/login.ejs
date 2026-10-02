@@ -1,0 +1,30 @@
+<!--views\auth\login.ejs-->
+<main class="form-signin m-5 d-flex justify-content-center">
+  <form action="/auth/login" method="post">
+    <h1 class="h3 mb-5 fw-normal">Login</h1>
+    <div class="form-floating">
+      <label for="email">Email:</label>
+      <input
+        class="form-control"
+        type="text"
+        id="email"
+        name="email"
+        required
+      />
+
+      <label for="password">Password:</label>
+      <input
+        class="form-control"
+        type="password"
+        id="password"
+        name="password"
+        required
+      />
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <button class="btn btn-primary w-50 py-2 mt-5" type="submit">
+        Login
+      </button>
+    </div>
+  </form>
+</main>
